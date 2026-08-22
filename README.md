@@ -1,4 +1,4 @@
-_# Hotel Management System
+# Hotel Management System
 
 A Python-based hotel management system designed to manage hotel rooms, guest profiles, comments, and activity logs.
 
