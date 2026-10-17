@@ -1,12 +1,13 @@
-_# Hotel Management System
+# Hotel Management System
 
-A Python-based hotel management system designed to manage hotel rooms, guest profiles, comments, and activity logs.
+A Python-based hotel management system designed to manage hotel rooms, guest profiles, check-in/check-out, comments, and activity logs.
 
 ## Features
 
 - Room management
 - Guest profile management
 - Room status management
+- Guest check-in and check-out
 - Guest comments
 - Activity logging
 - JSON data storage
@@ -25,7 +26,6 @@ A Python-based hotel management system designed to manage hotel rooms, guest pro
 ```text
 Hotel Management System/
 ├── backend.py
-├── requirements.txt
 ├── .gitignore
 ├── README.md
 └── data/
@@ -37,13 +37,13 @@ Hotel Management System/
 
 ## Demo Data
 
-All guest names, contact details, booking information, comments, and 
+All guest names, contact details, booking information, comments, and
 other guest-related data in this project are fictional and created for
 demonstration and educational purposes only.
 
 ## Project Status
 
-**Version 1.0 — Initial Release**
+Version 1.0 — Initial Release
 
 This is the first version of the project. Further updates and
 improvements are planned, including new features and better functionality.

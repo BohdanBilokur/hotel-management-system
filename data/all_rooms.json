@@ -2,17 +2,17 @@
     "#1": {
         "room_type": "Standard",
         "floor": 1,
-        "status": "Occupied"
+        "status": "Maintenance"
     },
     "#2": {
         "room_type": "Standard",
         "floor": 1,
-        "status": "Available"
+        "status": "Occupied"
     },
     "#3": {
         "room_type": "Standard",
         "floor": 1,
-        "status": "Maintenance"
+        "status": "Available"
     },
     "#4": {
         "room_type": "Deluxe",
@@ -22,7 +22,7 @@
     "#5": {
         "room_type": "Deluxe",
         "floor": 2,
-        "status": "Available"
+        "status": "Occupied"
     },
     "#6": {
         "room_type": "Deluxe",
@@ -42,6 +42,6 @@
     "#9": {
         "room_type": "Suite",
         "floor": 3,
-        "status": "Available"
+        "status": "Occupied"
     }
 }

@@ -1,43 +1,46 @@
-
-{"james_smith": {
-        "name": "Full name: James Smith",
-        "nationality": "Nationality: Australian",
-        "email": "Email: jamessmith3@example.com",
-        "phone": "Phone: +44 7000 000001",
-        "check-in date": "Check-in date: 2026-1-01",
-        "check-out date": "Check-out date: 2026-29-05",
-        "room number": "Room number: 9",
+{
+    "alex_carter": {
+        "name": "Full name: Alex Carter",
+        "nationality": "Nationality: Canadian",
+        "email": "Email: alex.carter@example.com",
+        "phone": "Phone: +44 7000 100001",
+        "check-in date": "Check-in date: 2026-09-01",
+        "check-out date": "Check-out date: 2026-09-05",
+        "room number": "Room number: ",
         "booking source": "Booking source: Booking.com",
-        "notes": "Notes: Please provide this guest a complimentary drink once they arrive to check in"},
-    "oliver_brown": {
-        "name": "Full name: Oliver Brown",
+        "notes": "Notes: Guest requested a complimentary drink on arrival."
+    },
+    "olivia_bennett": {
+        "name": "Full name: Olivia Bennett",
         "nationality": "Nationality: Italian",
-        "email": "Email: oliverbrown67@example.com",
-        "phone": "Phone: +44 7000 000002",
-        "check-in date": "Check-in date: 2026-10-06",
-        "check-out date": "Check-out date: 2026-20-06",
-        "room number": "Room number: 2",
+        "email": "Email: olivia.bennett@example.com",
+        "phone": "Phone: +44 7000 100002",
+        "check-in date": "Check-in date: 2026-09-22",
+        "check-out date": "Check-out date: ",
+        "room number": "Room number: 9",
         "booking source": "Booking source: Walk-in",
-        "notes": "Notes: This guest usually drinks coffee in the morning. Provide him cup of coffee in the morning"},
-    "emma_wilson": {
-        "name": "Full name: Emma Wilson",
+        "notes": "Notes: Guest usually requests coffee in the morning."
+    },
+    "sophia_wilson": {
+        "name": "Full name: Sophia Wilson",
         "nationality": "Nationality: British",
-        "email": "Email: emmawilson24@example.com",
-        "phone": "Phone: +44 7000 000003",
+        "email": "Email: sophia.wilson@example.com",
+        "phone": "Phone: +44 7000 100003",
         "check-in date": "Check-in date: 2026-09-14",
-        "check-out date": "Check-out date: 2026-09-18",
+        "check-out date": "Check-out date: ",
         "room number": "Room number: 5",
         "booking source": "Booking source: Booking.com",
-        "notes": "Notes: This guest prefers a quiet room away from the elevator."},
-    "michael_smith": {
-        "name": "Full name: Michael Smith",
+        "notes": "Notes: Guest prefers a quiet room away from the elevator."
+    },
+    "daniel_carter": {
+        "name": "Full name: Daniel Carter",
         "nationality": "Nationality: American",
-        "email": "Email: michaelsmith88@example.com",
-        "phone": "Phone: +44 7000 000004",
-        "check-in date": "Check-in date: 2026-11-02",
-        "check-out date": "Check-out date: 2026-11-07",
-        "room number": "Room number: 8",
+        "email": "Email: daniel.carter@example.com",
+        "phone": "Phone: +44 7000 100004",
+        "check-in date": "Check-in date: 2026-09-23",
+        "check-out date": "Check-out date: ",
+        "room number": "Room number: 2",
         "booking source": "Booking source: Expedia",
-        "notes": "Notes: This guest usually travels for business. Provide a desk and extra workspace in the room."}
-
-      }
+        "notes": "Notes: Guest usually travels for business and requests extra workspace."
+    }
+}

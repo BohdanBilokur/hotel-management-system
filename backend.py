@@ -84,6 +84,108 @@ def create_log(message):
     file.write(f"{time} - {message}\n")
     file.close()
 
+from datetime import datetime
+def create_log(message):
+    file = open("data/activity_log.txt", "a")
+
+    time = datetime.now()
+    file.write(f"{time} - {message}\n")
+    file.close()
+
+
+
+# Guests menu section
+def guests_menu():
+    while True:
+        print("\n=== GUESTS ===")
+        print("1. Find guest profile")
+        print("2. See all guests")
+        print("3. Comments")
+        print("e. Go back")
+
+        choice = " ".join(input("Choose option: ").split()).lower()
+
+        if choice == "1":
+            find_guest_profile()
+        elif choice == "2":
+            all_guests()
+        elif choice == "3":
+            comments_menu()
+        elif choice == "e":
+            print("Returning...")
+            return
+        else:
+            print("❌ Invalid option. Try again.")
+
+# Rooms menu section
+def rooms_menu():
+    while True:
+        print("\n=== ROOMS ===")
+        print("1. Find room")
+        print("2. See all rooms")
+        print("3. Update room status")
+        print("e. Go back")
+
+        choice = " ".join(input("Choose option: ").split()).lower()
+
+        if choice == "1":
+            find_room()
+        elif choice == "2":
+            see_all_rooms()
+        elif choice == "3":
+            change_status()
+        elif choice == "e":
+            print("Returning...")
+            return
+        else:
+            print("❌ Invalid option. Try again.")
+
+# Check-in / Check out menu section
+def check_in_out_menu():
+    while True:
+        print("\n=== CHECK-IN / CHECK-OUT ===")
+        print("1. Check-in")
+        print("2. Check-out")
+        print("e. Go back")
+
+        choice = " ".join(input("Choose option: ").split()).lower()
+
+        if choice == "1":
+            check_in()
+        elif choice == "2":
+            check_out()
+        elif choice == "e":
+            print("Returning...")
+            return
+        else:
+            print("❌ Invalid option. Try again.")
+
+# Activity Log Viewer section (reads and shows all activity Logs)
+def read_activity_log():
+    try:
+        file = open("data/activity_log.txt", "r")
+        logs = file.read()
+        file.close()
+
+        if logs:
+            print()
+            print(logs)
+
+            while True:
+                choice = input("Type 'e' to go back: ").strip().lower()
+
+                if choice == "e":
+                    print("Returning...")
+                    return
+                else:
+                    print("❌ Please type 'e' to go back.")
+        else:
+            print()
+            print("❌ No activity logs yet.")
+
+    except FileNotFoundError:
+        print("❌ Activity log file not found.")
+
 
 
 # Main menu
@@ -92,23 +194,23 @@ def main_menu():
         print("\n" + "="*35)
         print(f"🏨 {HOTEL_NAME}")
         print("="*35)
-        print("1. 🔍 Find guest profile")
-        print("2. 🏠 Find room")
-        print("3. 🙋 See all guests")
-        print("4. 💤️ See all rooms")
-        print("5. 🌐 Open hotel profile on Booking.com")
+        print("1. 👤 Guests")
+        print("2. 🏠 Rooms")
+        print("3. 🛎️ Check-in /️ Сheck-out")
+        print("4. 📋 Activity log")
+        print("5. 🌐 Open Booking.com")
         print("6. ❌ Exit")
         print("-"*35)
-        choice = "".join(input("Choose option (1-5): ").lower().split())
+        choice = "".join(input("Choose option (1-6): ").lower().split())
         
         if choice == "1":
-            find_guest_profile()
+            guests_menu()
         elif choice == "2":
-            find_room()
+            rooms_menu()
         elif choice == "3":
-            all_guests()
+            check_in_out_menu()
         elif choice == "4":
-            see_all_rooms()
+            read_activity_log()
         elif choice == "5":
             @decorator
             def open_url(url):
@@ -132,8 +234,12 @@ def find_guest_profile():
                                          "\n"
                                          "Type 'a' to add a comment: \n"
                                          "Type 'r' to read all comments: \n"
-                                         "Type 'e' to go back: ").split()).lower().replace(" ", "_")
+                                         "Type 'e' to go back: ").split()).lower()
             print("\n")
+
+            if search_name == "":
+                print("❌ Please enter a guest name.")
+                continue
             if search_name == "a":
                 add_comment()
                 continue
@@ -144,32 +250,70 @@ def find_guest_profile():
                 print("Returning to main menu..." )
                 return
 
-            elif search_name in guest_profiles:
-                print("\n".join(guest_profiles[search_name].values()))
+            found = False
 
-            else:
-                print("❌ Value does not exist. Please try again. ")
+            for guest in guest_profiles:
+                if search_name.replace(" ", "_") in guest:
+                    print("\n".join(guest_profiles[guest].values()))
+                    print()
+                    found = True
+            if found == False:
+                print ("❌ Value does not exist. Please try again.")
 
 
 
 # See all inhouse guests
 def all_guests():
         print()
-        all_guests = ["James Smith", "Oliver Brown", "Jack Wilson", "Harry Taylor",
-                              "Noah Davis",
-                              "Liam Miller",
-                              "Ethan Moore", "Lucas White", "Henry Clark", "Leo Harris", "Emily Johnson",
-                              "Sophia Walker",
-                              "Olivia Hall",
-                              "Emma Young", "Mia Allen", "Grace King", "Chloe Scott", "Lily Green", "Ella Baker",
-                              "Ava Adams", "Michael Smith", "Emma Wilson"]
-        print("\n".join(all_guests))
+        all_guests = []
+        guest_count = 0
+
+        for guest in guest_profiles:
+            room = guest_profiles[guest]["room number"]
+            name = guest_profiles[guest]["name"]
+            name = name.replace("Full name: ", "")
+
+            if room != "Room number: ":
+                guest_count += 1
+
+                room = room.replace("Room number: ", "#")
+                room_type = all_rooms[room]["room_type"]
+                status = all_rooms[room]["status"]
+                check_in_date = guest_profiles[guest]["check-in date"]
+                booking_source = guest_profiles[guest]["booking source"]
+                check_out_date = guest_profiles[guest]["check-out date"]
+
+                all_guests.append(
+                    f"{name}\n"
+                    f"Room: {room}\n"
+                    f"Room type: {room_type}\n"
+                    f"Room status: {status}\n"
+                    f"{check_in_date}\n"
+                    f"{check_out_date}\n"
+                    f"{booking_source}\n")
+
+        print(f"Total in-house guests: {guest_count}")
         print()
-        find_guest_profile()
+        print("\n".join(all_guests))
+        if guest_count == 0:
+            print("❌ No guests are currently checked in.")
+
+        while True:
+            print()
+            choice = " ".join(input("Type 'e' to go back: ").split()).lower()
+
+            if choice == "e":
+                print("Returning...\n")
+                return
+            else:
+                print("❌ Please type 'e' to go back")
+
+
 
 # Adding notes to comments.txt
 def comments_menu():
         while True:
+            print()
             choice = " ".join(input("Type 'a' to add a comment: \n"
                                     "Type 'r' to read all comments: \n"
                                     "Type 'e' to go back: ").split()).lower()
@@ -209,7 +353,7 @@ def add_comment():
                 return
             print("Comment has been recorded✅ \n")
 
-            file = open("/AI Hotel Assistant/comments.txt", "a")
+            file = open("data/comments.txt", "a")
             from datetime import datetime
             time = datetime.now()
             file.write(f"{time} - \n")
@@ -225,7 +369,7 @@ def add_comment():
 
 def read_comments():
             try:
-                with open("/Hotel Management System/data/comments.txt", "r") as file:
+                with open("data/comments.txt", "r") as file:
                     comments = file.read()
 
                     if comments:
@@ -241,10 +385,10 @@ def read_comments():
 
 
 # change status
-def change_status():                                                                          #function to change room status in console
+def change_status():                                                                          # function to change room status in console
    while True:
-        room_number = " ".join(input("Type room number with # (#1, #2 etc): ").split()).lower()
-
+        room_number = " ".join(input("Type room number with # (ex. #1, #2 etc): \n"
+                                     "Type 'e' to go back: ").split()).lower()
         if room_number == "e":
             print("Returning to main menu...")
             return(main_menu())
@@ -254,12 +398,37 @@ def change_status():                                                            
         elif room_number not in all_rooms:
             print("❌ Room number does not exist")
             return(change_status())
+
+        room_number_for_guest = room_number.replace("#", "")                          # removes "#" from the room number for guest search
+
+        guest_found = False
+
+        for guest in guest_profiles:
+            room = guest_profiles[guest]["room number"]
+            if room == "Room number: " + room_number_for_guest:                                 # this checks if there is a guest in a chosen room
+                print()
+                print(guest_profiles[guest]["name"])
+                guest_found = True
+
         while True:
+            print()
+            current_status = all_rooms[room_number]["status"]                                   # Shows current status of the room
+
+            if guest_found == True and current_status == "Available":
+                print("⚠️ Guest exists, but room is marked as Available.")
+            if guest_found == False and current_status == "Occupied":
+                print("⚠️ Room is Occupied, but no guest was found.")
+            if guest_found == True and current_status == "Maintenance":
+                print("⚠️ Guest exists, but room is under maintenance.")
+
+            print(f"Current status: {current_status}")
+            print()
+
             print("1 - Available")
             print("2 - Occupied")
             print("3 - Maintenance")
-            new_status = " ".join(input("Choose new status (ex. '1'): ").split()).lower()
 
+            new_status = " ".join(input("Choose new status (ex. '1'): ").split()).lower()
             statuses = {"1": "Available",
                         "2": "Occupied",
                         "3": "Maintenance"}
@@ -267,19 +436,285 @@ def change_status():                                                            
                 print("Returning...")
                 return(change_status())
             if new_status in statuses:
-                break
-            print("\n ❌ Please choose status from the list (example: '1') \n")
+                if statuses[new_status] == current_status:
+                    print()
+                    print(f"❌ Room {room_number} is already {current_status}.")
+                    continue
 
-        old_status = all_rooms[room_number]["status"]                                                     # old_status is needed for activity_log.txt
+                if guest_found == True and statuses[new_status] == "Available":
+                    print("⚠️ There is a guest in this room.")
+
+                    confirm = input("Continue? (y/n): ").lower()
+
+                    if confirm == "n":
+                        continue
+                    if confirm != "y":
+                        print("❌ Please type 'y' or 'n'.")
+                        continue
+
+                if guest_found == False and statuses[new_status] == "Occupied":
+                    print()
+                    print("⚠️ No guest was found in this room.")
+                break
+
+            else:
+                print("\n ❌ Please choose status from the list (example: '1') \n")
+
+        old_status = current_status                                                                       # old_status is needed for activity_log.txt
         new_status = statuses[new_status]
         all_rooms[room_number]["status"] = new_status
 
         create_log(f"Room {room_number} status changed from {old_status} to {new_status}")                # log for activity_log.txt
         save_rooms()                                                                                      # Save rooms in JSON
 
+        print(f"✅ Done! Room {room_number} status changed from {old_status} to {new_status}.")
+
         print()
-        print("Status updated!")
         return(change_status())
+
+
+
+def check_in():
+    while True:
+        guest_name = " ".join(input("Type guest name (or 'e' to go back): ").split()).lower()
+
+        if guest_name == "e":
+            print("Returning to main menu...")
+            return
+
+        found_guests = []
+        for guest in guest_profiles:
+            if guest_name.replace(" ", "_") in guest:
+                found_guests.append(guest)
+
+        if len(found_guests) == 0:
+            print()
+            print("❌ Guest not found.")
+            continue
+
+        if len(found_guests) == 1:
+            selected_guest = found_guests[0]
+
+        else:
+            print()
+            print("Multiple guests found:")
+
+            for number in range(len(found_guests)):
+                guest = found_guests[number]
+                print(f"{number + 1}. {guest_profiles[guest]['name']}")
+
+        while True:
+            choice = input("Choose guest number: ").strip()
+
+            if not choice.isdigit():
+                print("❌ Please choose a number from the list.")
+                continue
+
+            choice = int(choice)
+
+            if choice < 1 or choice > len(found_guests):
+                print("❌ Please choose a number from the list.")
+                continue
+
+            selected_guest = found_guests[choice - 1]
+            break
+
+            selected_guest = found_guests[choice - 1]
+
+        current_room = guest_profiles[selected_guest]["room number"]
+        if current_room != "Room number: ":
+            current_room = current_room.replace("Room number: ", "#")
+            print(f"❌ Guest is already assigned to room {current_room}.")
+            return
+
+        standard_rooms = []
+        deluxe_rooms = []
+        suite_rooms =    []
+
+        for room, info in all_rooms.items():
+            if info["status"] == "Available":
+                if info["room_type"] == "Standard":
+                    standard_rooms.append(room)
+                elif info["room_type"] == "Deluxe":
+                    deluxe_rooms.append(room)
+                elif info["room_type"] == "Suite":
+                    suite_rooms.append(room)
+
+        room_type = " ".join(input("Choose room type:\n"
+                                   "1. Standard\n"
+                                   "2. Deluxe\n"
+                                   "3. Suite\n"
+                                   "Choose option: ").split()).lower()
+        if room_type == "e":
+            print("Returning...")
+            return
+        if room_type == "1":
+            room_type = "Standard"
+        elif room_type == "2":
+            room_type = "Deluxe"
+        elif room_type == "3":
+            room_type = "Suite"
+        else:
+            print("❌ Please choose 1, 2 or 3.")
+            continue
+
+        if room_type == "Standard":
+            available_rooms = standard_rooms
+        elif room_type == "Deluxe":
+            available_rooms = deluxe_rooms
+        elif room_type == "Suite":
+            available_rooms = suite_rooms
+
+        if len(available_rooms) == 0:
+            print()
+            print(f"❌ No available {room_type} rooms.")
+            continue
+
+        print()
+        print(f"Available {room_type} rooms:")
+        print(" ".join(available_rooms))
+        print(f"Total available {room_type} rooms: {len(available_rooms)}")
+
+        room_number = " ".join(input("Choose room number (or 'e' to go back): ").split()).lower()
+        if room_number == "e":
+            print("Returning...")
+            return
+        if room_number not in available_rooms:
+            print("❌ Please choose a room from the available list.")
+            continue
+
+        all_rooms[room_number]["status"] = "Occupied"
+        guest_profiles[selected_guest]["room number"] = "Room number: " + room_number.replace("#", "")
+
+        check_in_date = datetime.now().strftime("%Y-%m-%d")                                                                 # records date and time of the check in
+        guest_profiles[selected_guest]["check-in date"] = "Check-in date: " + check_in_date
+        guest_profiles[selected_guest]["check-out date"] = "Check-out date: "
+
+        create_log(f"Guest {guest_profiles[selected_guest]['name']} checked in to room {room_number}")
+
+        save_rooms()
+        save_guest_profiles()
+
+        print()
+        print("✅ Check-in completed.")
+        print(f"Guest: {guest_profiles[selected_guest]['name']}")
+        print(f"Room: {room_number}")
+        print(f"Room type: {room_type}")
+        print(f"Check-in date: {check_in_date}")
+        return ()
+
+
+
+def check_out():
+    while True:
+        print()
+        search_type = " ".join(input("Choose option (1 or 2) \n"
+                                    "1. Search by guest name: \n"
+                                    "2. Search by room number: " ).split()).lower()
+
+        if search_type == "e":
+            print("Returning to main menu...")
+            return
+        if search_type == "1":
+            guest_name = " ".join(input("Type guest name: ").split()).lower()
+            if guest_name == "e":
+                print("Returning to main menu...")
+                return
+
+        elif search_type == "2":
+            room_number = " ".join(input("Type room number with # (ex. #8) or 'e' to go back: ").split()).lower()
+            if room_number == "e":
+                print("Returning to main menu...")
+                return
+            if "#" not in room_number:
+                print("❌ Please enter room number with # (example: #8)")
+                return
+            if room_number not in all_rooms:
+                print("❌ Room number does not exist.")
+                return
+        else:
+            print("❌ Please choose '1' or '2'.")
+            continue
+
+        found = False
+
+        for guest in guest_profiles:
+            if search_type == "1" and guest_name.replace(" ", "_") in guest:
+                print()
+                print(guest_profiles[guest]["name"])
+                found = True
+                selected_guest = guest
+
+            elif search_type == "2":
+                guest_room = guest_profiles[guest]["room number"]
+                guest_room = guest_room.replace("Room number: ", "#")
+
+                if guest_room == room_number:
+                    print(guest_profiles[guest]["name"])
+                    found = True
+                    selected_guest = guest
+
+        if found == False:
+            print()
+
+            if search_type == "2":
+                print(f"❌ No guest found in room {room_number}.")
+            else:
+                print("❌ Guest not found.")
+            return
+
+        if search_type == "1":
+            room_number = guest_profiles[selected_guest]["room number"]
+            room_number = room_number.replace("Room number: ", "#")
+
+        if room_number == "#":
+            print()
+            print("❌ Guest is not assigned to a room.")
+            return
+        if room_number not in all_rooms:
+            print("❌ Room number does not exist.")
+            return
+
+        current_status = all_rooms[room_number]["status"]
+
+        if current_status != "Occupied":
+            print()
+            print(f"❌ Room {room_number} is not marked as Occupied.")
+            return
+
+        print()
+        print(f"Guest: {guest_profiles[selected_guest]['name']}")
+        print(f"Room: {room_number}")
+
+        while True:
+            confirm = input("Confirm check-out? (y/n): ").lower()
+
+            if confirm == "y":
+                break
+            if confirm == "n":
+                print("Check-out cancelled.")
+                return
+
+            print("❌ Please type 'y' or 'n'.")
+
+        all_rooms[room_number]["status"] = "Available"
+        guest_profiles[selected_guest]["room number"] = "Room number: "                             # it clears the guest’s assigned room number after check-out
+
+        check_out_date = datetime.now().strftime("%Y-%m-%d")                                        # time and date of the check-out
+        guest_profiles[selected_guest]["check-out date"] = "Check-out date: " + check_out_date
+
+        create_log(f"Guest {guest_profiles[selected_guest]['name']} checked out from room {room_number}")
+
+        save_rooms()
+        save_guest_profiles()
+
+        print()
+        print("✅ Check-out completed.")
+        print(f"Guest: {guest_profiles[selected_guest]['name']}")
+        print(f"Room: {room_number}")
+        print(f"Check-out date: {check_out_date}")
+        print("Room is now available.")
+        return ()
 
 
 
@@ -313,6 +748,7 @@ def find_room():
         print("Update room status:")
         print()
         change_status()
+        return
     else:
         print("❌ Invalid choice.")
         return (find_room())
@@ -322,33 +758,39 @@ def find_room():
         if info["room_type"] == selected_room_type and info["status"] == "Available":
             available.append(room)
     if len(available) > 0:
-        print(f"✅Available {selected_room_type} rooms:")
+        print(f"✅ Available {selected_room_type} rooms:")
         print(" ".join(available))
+        print()
+        print(f"Total available {selected_room_type} rooms: {len(available)}")
     else:
-        print(f"❌ All {selected_room_type} rooms are occupied.")
+        print(f"❌ No available {selected_room_type} rooms.")
 
     while True:
         next_value = " ".join(input("Type 'e' to go back): ").split()).lower()
         if next_value.lower() == "e":
             print("Returning to main menu...")
             return (find_room())
+        else:
+            print("❌ Please type 'e' to go back.")
 
 
 
 # See all rooms
 def see_all_rooms():
-        for room, info in all_rooms.items():
-            print("Room: " + room)
-            print("Type: " + (info["room_type"]))
-            print("Floor: " + str(info["floor"]))
-            if info["status"] == "Available":
-                print("Status: " +(info["status"] + "✅"))
-            elif info["status"] == "Maintenance":
-                print("Status: " +(info["status"] + "🟡"))
-            else:
-                print("Status: " + (info["status"] + "❌"))
-            print()
+        print()
+        print(f"{'Room':<8}{'Type':<12}{'Floor':<8}{'Status'}")
+        print("-" * 48)
 
+        for room, info in all_rooms.items():
+            if info["status"] == "Available":
+                status = info["status"] + "✅"
+            elif info["status"] == "Maintenance":
+                status = info["status"] + "🟡"
+            else:
+                status = info["status"] + "❌"
+
+            print(f"{room:<8}{info['room_type']:<12}{info['floor']:<8}{status}")
+        print()
         while True:
             choice = " ".join(input("Type '1' to update room status: \n"
                                     "Type 'e' to go back): ").split()).lower()

@@ -1,0 +1,6 @@
+2026-09-23 10:15:00 - Room #3 status changed from Maintenance to Available
+2026-09-23 10:20:00 - Guest Demo Guest checked in to room #2
+2026-09-23 10:45:00 - Guest Demo Guest checked out from room #2
+2026-09-23 11:00:00 - Room #8 status changed from Available to Maintenance
+2026-10-03 23:20:24.078792 - Room #5 status changed from Occupied to Maintenance
+2026-10-03 23:28:39.579153 - Room #1 status changed from Available to Maintenance
